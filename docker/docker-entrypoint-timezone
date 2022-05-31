@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+if [ "$APP_TIMEZONE" != "" ] && [ -f "/usr/share/zoneinfo/$APP_TIMEZONE" ]; then
+
+  ln -sf "/usr/share/zoneinfo/$APP_TIMEZONE" "/etc/localtime"
+
+fi

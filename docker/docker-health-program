@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+EXIT=0
+
+if [ "$APP_MODE" == "run" ]; then
+
+  if [ ! -f "/var/pid/supervisord.pid" ]; then
+
+    EXIT=1
+
+  else
+
+    PROGRAMS=$(supervisorctl pid all)
+
+    for PID in $PROGRAMS; do
+
+      if [ "$PID" = "0" ]; then
+
+        EXIT=1
+
+        break
+
+      fi
+
+    done
+
+  fi
+
+
+fi
+
+echo $EXIT

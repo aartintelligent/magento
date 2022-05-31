@@ -1,0 +1,10 @@
+docker-entrypoint-timezone
+docker-entrypoint-elasticsearch
+docker-entrypoint-mysql
+docker-entrypoint-redis
+docker-entrypoint-php
+docker-entrypoint-binary
+docker-entrypoint-composer
+docker-entrypoint-magento
+docker-entrypoint-program
+docker-entrypoint-ready

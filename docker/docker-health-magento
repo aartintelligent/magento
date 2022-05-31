@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+source utils
+
+EXIT=0
+
+if [ "$APP_MODE" == "run" ] && [ "$USE_SERVER" == "true" ]; then
+
+  MAGENTO_HEATH=$(CURL_STATUS "http://127.0.0.1/health_check.php")
+
+  if [ "$MAGENTO_HEATH" != "200" ]; then
+
+    EXIT=1
+
+  fi
+
+fi
+
+echo $EXIT
