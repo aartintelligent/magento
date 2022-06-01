@@ -14,6 +14,7 @@ if [ "$COMPOSER_INSTALL" == "true" ]; then
     (echo >&2 "Waiting for Composer auth.json to be ready...")
 
     sleep 2
+
   done
 
   bin-composer install --prefer-dist --no-progress --no-interaction

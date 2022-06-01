@@ -134,5 +134,10 @@ return [
         'config_webservice' => 1,
         'translate' => 1,
         'vertex' => 1
+    ],
+    'docker' => [
+        'entrypoints' => [
+            'AArtIntelligent\\Docker\\Model\\Entrypoint\\WelcomeEntrypoint'
+        ],
     ]
 ];

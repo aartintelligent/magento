@@ -14,3 +14,11 @@ if [ ! -s /etc/php/8.1/90-php.ini ]; then
   done
 
 fi
+
+while [ ! -f "/var/www/app/preload.php" ]; do
+
+    (echo >&2 "Waiting for Php preload.php to be ready...")
+
+    sleep 2
+
+done
