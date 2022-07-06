@@ -27,7 +27,6 @@ if [ "$APP_MODE" == "run" ]; then
 
   fi
 
-
 fi
 
 echo $EXIT
