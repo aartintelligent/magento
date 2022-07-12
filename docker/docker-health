@@ -23,6 +23,22 @@ while [ $COUNTER -le 3 ]; do
 
   done
 
+  for health in /docker-health.d/*; do
+
+    if [ -f $health ] && [ -x $health ]; then
+
+      EXIT=$(exec $health "$@")
+
+      if [ "$EXIT" != "0" ]; then
+
+        break
+
+      fi
+
+    fi
+
+  done
+
   COUNTER=$((COUNTER+1))
 
   sleep 0.2

@@ -2,7 +2,7 @@ FROM debian:bullseye-slim
 
 ARG UID=1000
 ARG GID=1000
-ARG APP_MODE="deploy"
+ARG APP_MODE="run"
 ARG APP_SECRET="a00001"
 ARG APP_TIMEZONE="Europe/Paris"
 ARG COMPOSER_AUTH=""
@@ -37,6 +37,7 @@ RABBITMQ_HOST="rabbitmq" \
 RABBITMQ_PORT="5672" \
 RABBITMQ_USER="rootless" \
 RABBITMQ_PASSWORD="nopassword" \
+NGINX_WORKER_PROCESSES="5" \
 FPM_PM="dynamic" \
 FPM_PM__MAX_CHILDREN="5" \
 FPM_PM__START_SERVERS="2" \
@@ -52,8 +53,8 @@ PHP_XDEBUG__MODE="off" \
 PHP_XDEBUG__CLIENT_PORT="9003" \
 PHP_XDEBUG__CLIENT_HOST="172.17.0.1" \
 PHP_XDEBUG__IDEKEY="PHPSTORM" \
-PHP_OPCACHE__ENABLE="0" \
-PHP_OPCACHE__ENABLE_CLI="0" \
+PHP_OPCACHE__ENABLE="1" \
+PHP_OPCACHE__ENABLE_CLI="1" \
 PHP_OPCACHE__MEMORY_CONSUMPTION="256" \
 PHP_OPCACHE__INTERNED_STRINGS_BUFFER="8" \
 PHP_OPCACHE__MAX_ACCELERATED_FILES="60000" \
@@ -173,6 +174,12 @@ RUN set -eux; \
 mkdir -p /tmp; \
 chmod 777 -R /tmp; \
 chown rootless:rootless /tmp; \
+mkdir -p /docker-entrypoint.d; \
+chmod 777 -R /docker-entrypoint.d; \
+chown rootless:rootless /docker-entrypoint.d; \
+mkdir -p /docker-health.d; \
+chmod 777 -R /docker-health.d; \
+chown rootless:rootless /docker-health.d; \
 mkdir -p /etc/supervisor; \
 chmod 777 -R /etc/supervisor; \
 chown rootless:rootless /etc/supervisor; \
@@ -236,6 +243,8 @@ rm -rf /var/www/supervisor
 COPY --chown=rootless:rootless docker/ /usr/bin
 
 RUN set -eux; \
+chmod +x -R /docker-entrypoint.d; \
+chmod +x -R /docker-health.d; \
 chmod +x -R /usr/bin; \
 chmod +x -R /usr/sbin
 
