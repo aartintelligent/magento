@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+source utils
+
+COUNTER=1
+
+while [ $COUNTER -le 3 ]; do
+
+  EXIT=0
+
+  for health in /docker-health.d/*; do
+
+    if [ -f $health ] && [ -x $health ]; then
+
+      EXIT=$(exec $health "$@")
+
+      if [ "$EXIT" != "0" ]; then
+
+        break
+
+      fi
+
+    fi
+
+  done
+
+  COUNTER=$((COUNTER+1))
+
+  sleep 0.2
+
+done
+
+echo $EXIT

@@ -10,7 +10,6 @@
 /README.md
 /data
 /dev
-/docker/bin-*
 /generated
 /patch
 /node_modules

@@ -2,24 +2,12 @@ FROM debian:bullseye-slim
 
 ARG UID=1000
 ARG GID=1000
-ARG APP_RECREATE="true"
-ARG APP_TABLE="app_migration"
-ARG APP_NAME="frontend"
-ARG APP_UID="1"
-ARG APP_TRIGGERS=""
-ARG APP_VERSION="100.0.0"
 ARG APP_MODE="run"
 ARG APP_SECRET="a00001"
 ARG APP_TIMEZONE="Europe/Paris"
 ARG COMPOSER_AUTH=""
 
 ENV \
-APP_RECREATE="${APP_RECREATE}" \
-APP_TABLE="${APP_TABLE}" \
-APP_NAME="${APP_NAME}" \
-APP_UID="${APP_UID}" \
-APP_TRIGGERS="${APP_TRIGGERS}" \
-APP_VERSION="${APP_VERSION}" \
 APP_MODE="${APP_MODE}" \
 APP_SECRET="${APP_SECRET}" \
 APP_TIMEZONE="${APP_TIMEZONE}" \
@@ -49,7 +37,8 @@ RABBITMQ_HOST="rabbitmq" \
 RABBITMQ_PORT="5672" \
 RABBITMQ_USER="rootless" \
 RABBITMQ_PASSWORD="nopassword" \
-FPM_PM="dynamic" \
+NGINX_WORKER_PROCESSES="5" \
+FPM_PM="static" \
 FPM_PM__MAX_CHILDREN="5" \
 FPM_PM__START_SERVERS="2" \
 FPM_PM__MIN_SPARE_SERVERS="1" \
@@ -185,6 +174,12 @@ RUN set -eux; \
 mkdir -p /tmp; \
 chmod 777 -R /tmp; \
 chown rootless:rootless /tmp; \
+mkdir -p /docker-entrypoint.d; \
+chmod 777 -R /docker-entrypoint.d; \
+chown rootless:rootless /docker-entrypoint.d; \
+mkdir -p /docker-health.d; \
+chmod 777 -R /docker-health.d; \
+chown rootless:rootless /docker-health.d; \
 mkdir -p /etc/supervisor; \
 chmod 777 -R /etc/supervisor; \
 chown rootless:rootless /etc/supervisor; \
@@ -248,6 +243,8 @@ rm -rf /var/www/supervisor
 COPY --chown=rootless:rootless docker/ /usr/bin
 
 RUN set -eux; \
+chmod +x -R /docker-entrypoint.d/*; \
+chmod +x -R /docker-health.d/*; \
 chmod +x -R /usr/bin; \
 chmod +x -R /usr/sbin
 

@@ -99,6 +99,14 @@ docker-compose exec magento bin/magento admin:user:create \
 --admin-password="$(whoami)123"
 ```
 
+Reset two factor Google
+
+```shell
+docker-compose exec magento bin/magento security:tfa:reset \
+"$(whoami)" \
+google
+```
+
 Or default admin user
 
 ```text
@@ -297,3 +305,4 @@ https://github.com/adn-magento/logger
 ```shell
 docker-compose exec magento bin-composer require adn-magento/logger
 ```
+
