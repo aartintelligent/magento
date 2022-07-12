@@ -11,40 +11,7 @@ ENV \
 APP_MODE="${APP_MODE}" \
 APP_SECRET="${APP_SECRET}" \
 APP_TIMEZONE="${APP_TIMEZONE}" \
-COMPOSER_AUTH="${COMPOSER_AUTH}" \
-COMPOSER_INSTALL="false" \
-COMPOSER_DUMP="false" \
-COMPOSER_ALLOW_SUPERUSER='0' \
-COMPOSER_ALLOW_XDEBUG='0' \
-COMPOSER_CACHE_DIR='/var/cache/composer' \
-USE_SERVER="false" \
-USE_CRONTAB="false" \
-MAGE_INSTALL="false" \
-MAGE_COMPILE="false" \
-MAGE_CLEAN_CACHE="false" \
-MAGE_DEBUG="0" \
-MAGE_MODE="production" \
-MAGE_RUN_CODE="base" \
-MAGE_RUN_TYPE="website" \
-CRONTAB_DEFAULT_SLEEP="60" \
-CRONTAB_INDEX_SLEEP="60" \
-MYSQL_HOST="mysql" \
-MYSQL_PORT="3306" \
-MYSQL_DATABASE="magento" \
-MYSQL_USER="rootless" \
-MYSQL_PASSWORD="nopassword" \
-RABBITMQ_HOST="rabbitmq" \
-RABBITMQ_PORT="5672" \
-RABBITMQ_USER="rootless" \
-RABBITMQ_PASSWORD="nopassword" \
-NGINX_WORKER_PROCESSES="5" \
-FPM_PM="static" \
-FPM_PM__MAX_CHILDREN="5" \
-FPM_PM__START_SERVERS="2" \
-FPM_PM__MIN_SPARE_SERVERS="1" \
-FPM_PM__MAX_SPARE_SERVERS="3" \
-FPM_PM__PROCESS_IDLE_TIMEOUT="10s;" \
-FPM_PM__MAX_REQUESTS="500" \
+PHP_VERSION="8.1" \
 PHP_MEMORY_LIMIT="4G" \
 PHP_REALPATH_CACHE_SIZE="4096K" \
 PHP_REALPATH_CACHE_TTL="600" \
@@ -91,7 +58,40 @@ PHP_OPCACHE__PRELOAD="/var/www/app/preload.php" \
 PHP_OPCACHE__PRELOAD_USER="rootless" \
 PHP_OPCACHE__LOCKFILE_PATH="/var/lock/opcache" \
 PHP_OPCACHE__JIT="1255" \
-PHP_OPCACHE__JIT_BUFFER_SIZE="250MB"
+PHP_OPCACHE__JIT_BUFFER_SIZE="250MB" \
+FPM_PM="static" \
+FPM_PM__MAX_CHILDREN="5" \
+FPM_PM__START_SERVERS="2" \
+FPM_PM__MIN_SPARE_SERVERS="1" \
+FPM_PM__MAX_SPARE_SERVERS="3" \
+FPM_PM__PROCESS_IDLE_TIMEOUT="10s;" \
+FPM_PM__MAX_REQUESTS="500" \
+COMPOSER_AUTH="${COMPOSER_AUTH}" \
+COMPOSER_INSTALL="false" \
+COMPOSER_DUMP="false" \
+COMPOSER_ALLOW_SUPERUSER='0' \
+COMPOSER_ALLOW_XDEBUG='0' \
+COMPOSER_CACHE_DIR='/var/cache/composer' \
+MYSQL_HOST="mysql" \
+MYSQL_PORT="3306" \
+MYSQL_DATABASE="magento" \
+MYSQL_USER="rootless" \
+MYSQL_PASSWORD="nopassword" \
+RABBITMQ_HOST="rabbitmq" \
+RABBITMQ_PORT="5672" \
+RABBITMQ_USER="rootless" \
+RABBITMQ_PASSWORD="nopassword" \
+USE_SERVER="false" \
+USE_CRONTAB="false" \
+MAGE_INSTALL="false" \
+MAGE_COMPILE="false" \
+MAGE_CLEAN_CACHE="false" \
+MAGE_DEBUG="0" \
+MAGE_MODE="production" \
+MAGE_RUN_CODE="base" \
+MAGE_RUN_TYPE="website" \
+CRONTAB_DEFAULT_SLEEP="60" \
+CRONTAB_INDEX_SLEEP="60"
 
 RUN set -eux; \
 apt-get update \
@@ -158,6 +158,9 @@ rm -rf /etc/nginx/sites-enabled/*
 COPY --chown=rootless:rootless server .
 
 COPY --chown=rootless:rootless supervisor/ /etc/supervisor/conf.d/
+
+RUN set -eux; \
+mv /usr/sbin/php-fpm8.1 /usr/sbin/php-fpm
 
 RUN set -eux; \
 ln -sf \

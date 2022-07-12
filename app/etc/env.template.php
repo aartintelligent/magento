@@ -82,10 +82,17 @@ return [
                 'backend_options' => [
                     'server' => getenv('REDIS_CACHE_HOST'),
                     'port' => getenv('REDIS_CACHE_PORT'),
-                    'database' => '0',
                     'password' => '',
-                    'compress_data' => '1',
-                    'compression_lib' => '',
+                    'persistent' => '',
+                    'database' => '0',
+                    'force_standalone' => '0',
+                    'connect_retries' => '1',
+                    'read_timeout' => '10',
+                    'automatic_cleaning_factor' => '0',
+                    'compress_data' => '0',
+                    'compress_tags' => '1',
+                    'compress_threshold' => '20480',
+                    'compression_lib' => 'gzip',
                     'preload_keys' => [
                         'EAV_ENTITY_TYPES',
                         'GLOBAL_PLUGIN_LIST',
@@ -100,10 +107,17 @@ return [
                 'backend_options' => [
                     'server' => getenv('REDIS_CACHE_HOST'),
                     'port' => getenv('REDIS_CACHE_PORT'),
-                    'database' => '1',
                     'password' => '',
+                    'persistent' => '',
+                    'database' => '1',
+                    'force_standalone' => '0',
+                    'connect_retries' => '1',
+                    'read_timeout' => '10',
+                    'automatic_cleaning_factor' => '0',
                     'compress_data' => '0',
-                    'compression_lib' => ''
+                    'compress_tags' => '1',
+                    'compress_threshold' => '20480',
+                    'compression_lib' => 'gzip'
                 ]
             ]
         ],
