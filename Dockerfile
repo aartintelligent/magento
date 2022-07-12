@@ -38,7 +38,7 @@ RABBITMQ_PORT="5672" \
 RABBITMQ_USER="rootless" \
 RABBITMQ_PASSWORD="nopassword" \
 NGINX_WORKER_PROCESSES="5" \
-FPM_PM="dynamic" \
+FPM_PM="static" \
 FPM_PM__MAX_CHILDREN="5" \
 FPM_PM__START_SERVERS="2" \
 FPM_PM__MIN_SPARE_SERVERS="1" \
@@ -243,8 +243,8 @@ rm -rf /var/www/supervisor
 COPY --chown=rootless:rootless docker/ /usr/bin
 
 RUN set -eux; \
-chmod +x -R /docker-entrypoint.d; \
-chmod +x -R /docker-health.d; \
+chmod +x -R /docker-entrypoint.d/*; \
+chmod +x -R /docker-health.d/*; \
 chmod +x -R /usr/bin; \
 chmod +x -R /usr/sbin
 
