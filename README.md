@@ -305,3 +305,4 @@ https://github.com/adn-magento/logger
 ```shell
 docker-compose exec magento bin-composer require adn-magento/logger
 ```
+

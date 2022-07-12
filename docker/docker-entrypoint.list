@@ -7,3 +7,4 @@ docker-entrypoint-binary
 docker-entrypoint-composer
 docker-entrypoint-magento
 docker-entrypoint-supervisor
+docker-entrypoint-extra

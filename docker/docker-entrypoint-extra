@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+source utils
+
+for entrypoint in /docker-entrypoint.d/*; do
+
+  if [ -f $entrypoint ] && [ -x $entrypoint ]; then
+
+    echo "Execute $(basename "$entrypoint")"
+
+    . $entrypoint "$@"
+
+  fi
+
+done
+
+exec "$@"
